@@ -1,0 +1,14 @@
+//
+// Created by noeim on 03/02/2020.
+//
+
+#ifndef ALGORITHMICONBIGNUMBER_BIGINT_H
+#define ALGORITHMICONBIGNUMBER_BIGINT_H
+
+
+class BigInt {
+
+};
+
+
+#endif //ALGORITHMICONBIGNUMBER_BIGINT_H
