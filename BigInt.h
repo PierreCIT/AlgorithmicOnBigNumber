@@ -27,6 +27,10 @@ public:
         return false;
     };
     void print();
+    BigInt add(BigInt B);
+    friend BigInt operator+(BigInt A, BigInt B){
+        return A.add(B);
+    }
 };
 
 

@@ -15,3 +15,12 @@ void BigInt::print() {
     }
     cout<<endl;
 }
+
+BigInt BigInt::add(BigInt B) {
+    vector<unsigned long int> A = {2,3};
+    BigInt C(this->size, A);
+    for(int i=this->vector_size; i>1;i++){
+        unsigned long long int C = this->value[i] + B.value[i];
+
+    }
+}
