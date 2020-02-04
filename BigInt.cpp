@@ -67,9 +67,8 @@ BigInt BigInt::multiply(BigInt B) {
         uint64_t carry_2 = 0;
         for (int k = vector_size - 1; k > 0; k--) {
             int index = (result.vector_size - 1) - (vector_size - k -1) - (vector_size - i -1);
-//            cout << index << " ";
+            cout << index << " ";
             temp_mul = B.value[i] * value[k];
-//            cout<< B.value[i] << " * " << value[k]<<" , ";
             uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]);
             result.value[index] = uint64_t((uint32_t) temp_add);
             carry = (uint32_t) (temp_add >> 32);
@@ -78,7 +77,7 @@ BigInt BigInt::multiply(BigInt B) {
             result.value[index - 1] = uint64_t((uint32_t) temp_add);
             carry_2 = (uint32_t) (temp_add >> 32);
         }
-//        cout << endl;
+        cout << endl;
 //        finalResult = finalResult + result;
 //        finalResult.print();
 //        result.reset();
