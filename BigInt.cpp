@@ -60,18 +60,32 @@ BigInt BigInt::substract(BigInt B, BigInt p) {
 BigInt BigInt::multiply(BigInt B) {
     vector<uint64_t> temp = {0};
     BigInt result(size * 2, temp);
+    BigInt finalResult(size * 2, temp);
     for (int i = vector_size - 1; i > 1; i--) {
-        uint32_t carry = 0;
+        uint64_t carry = 0;
+        uint64_t carry_2 = 0;
         for (int k = vector_size - 1; k > 1; k--) {
             int index = (result.vector_size - 1) - (vector_size - k - 1) - (vector_size - i - 1);
+//            cout << index << " ";
             uint64_t temp_mul = B.value[i] * value[k];
-            uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]) + carry;
+            uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]);
             result.value[index] = uint64_t((uint32_t) temp_add);
-            carry = (uint32_t) ((uint64_t) temp_add >> 32);
-            temp_add = (uint64_t) ((uint32_t) (temp_mul >> 32) + result.value[index - 1]) + carry;
-            result.value[index - 1] = uint64_t((uint32_t) temp_add);
             carry = (uint32_t) (temp_add >> 32);
+
+            temp_add = (uint64_t) ((uint32_t) (temp_mul >> 32) + result.value[index - 1]) + carry + carry_2;
+            result.value[index - 1] = uint64_t((uint32_t) temp_add);
+            carry_2 = (uint32_t) (temp_add >> 32);
         }
+//        cout << endl;
+//        finalResult = finalResult + result;
+//        finalResult.print();
+//        result.reset();
     }
     return result;
+}
+
+void BigInt::reset() {
+    for (int i = 0; i < vector_size; i++) {
+        value[i] = 0;
+    }
 }

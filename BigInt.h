@@ -43,6 +43,8 @@ public:
     BigInt substract(BigInt B, BigInt p);
 
     BigInt multiply(BigInt B);
+
+    void reset();
 };
 
 
