@@ -5,8 +5,8 @@ using namespace std;
 
 int main() {
     cout << "Begins" << endl;
-    vector<uint64_t> initA = {1, 0, 0, 0, 0, 0, 0, 0};
-    vector<uint64_t> initB = {0, 1, 1, 1, 1, 1, 1, 1};
+    vector<uint64_t> initA = {0, 0, 0, 0, 0, 4294967295, 4294967295, 4294967295};
+    vector<uint64_t> initB = {0, 0, 0, 0, 0, 2, 2, 2};
     vector<uint64_t> primary = {2, 0, 0, 0, 0, 0, 0, 0};//{0, 0, 0, 0, 0, 999, 1700231273, 187355674};
     BigInt A(256, initA);
     BigInt B(256, initB);
@@ -26,6 +26,9 @@ int main() {
     C.print();
     cout << "A - B mod(p) : ";
     C = A.substract(B, p);
+    C.print();
+    cout << "A * B : ";
+    C = A.multiply(B);
     C.print();
     return 0;
 }

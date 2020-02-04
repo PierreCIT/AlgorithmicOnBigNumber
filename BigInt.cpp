@@ -56,3 +56,22 @@ BigInt BigInt::substract(BigInt B, BigInt p) {
     }
     return result;
 }
+
+BigInt BigInt::multiply(BigInt B) {
+    vector<uint64_t> temp = {0};
+    BigInt result(size * 2, temp);
+    for (int i = vector_size - 1; i > 1; i--) {
+        uint32_t carry = 0;
+        for (int k = vector_size - 1; k > 1; k--) {
+            int index = (result.vector_size - 1) - (vector_size - k - 1) - (vector_size - i - 1);
+            uint64_t temp_mul = B.value[i] * value[k];
+            uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]) + carry;
+            result.value[index] = uint64_t((uint32_t) temp_add);
+            carry = (uint32_t) ((uint64_t) temp_add >> 32);
+            temp_add = (uint64_t) ((uint32_t) (temp_mul >> 32) + result.value[index - 1]) + carry;
+            result.value[index - 1] = uint64_t((uint32_t) temp_add);
+            carry = (uint32_t) (temp_add >> 32);
+        }
+    }
+    return result;
+}
