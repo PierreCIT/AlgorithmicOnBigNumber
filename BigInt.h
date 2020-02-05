@@ -8,6 +8,7 @@
 #import <vector>
 #import <string>
 #import <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -45,6 +46,8 @@ public:
     BigInt multiply(BigInt B);
 
     void reset();
+
+    BigInt montgomery(BigInt B, BigInt r, BigInt v, BigInt p);
 };
 
 

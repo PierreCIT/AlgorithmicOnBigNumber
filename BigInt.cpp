@@ -66,7 +66,7 @@ BigInt BigInt::multiply(BigInt B) {
         uint64_t carry = 0;
         uint64_t carry_2 = 0;
         for (int k = vector_size - 1; k > 0; k--) {
-            int index = (result.vector_size - 1) - (vector_size - k -1) - (vector_size - i -1);
+            int index = (result.vector_size - 1) - (vector_size - k - 1) - (vector_size - i - 1);
             cout << index << " ";
             temp_mul = B.value[i] * value[k];
             uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]);
@@ -89,4 +89,35 @@ void BigInt::reset() {
     for (int i = 0; i < vector_size; i++) {
         value[i] = 0;
     }
+}
+
+BigInt mask_with_k(BigInt a, int k) {
+    int index = (int) k / 32;
+    a.value[a.vector_size - 1 - index] = a.value[a.vector_size - 1 - index] & (unsigned long) (pow(2, k % 32) - 1);
+    for (int i = a.vector_size - 2 - index; i > 0; i--) {
+        a.value[i] = 0;
+    }
+    return a;
+}
+
+BigInt shift_to_right(BigInt a, int k) {
+    for (int i = 0; i < a.vector_size - 1; i++) {
+        a.value[i + 1] = a.value[i];
+    }
+    return a;
+}
+
+BigInt elementar_montgomery(BigInt A, BigInt B, BigInt r, BigInt v, BigInt p, int k) {
+    BigInt s = A.multiply(B);
+    BigInt t = mask_with_k(s.multiply(v), k);
+    t = mask_with_k(t, k); //operation modulo
+    BigInt m = s + t.multiply(p);
+    //return m >> 32; //TODO: Change
+}
+
+BigInt BigInt::montgomery(BigInt B, BigInt r, BigInt v, BigInt p) {
+    vector<uint64_t> temp = {0};
+    BigInt a_phi(size, temp);
+    BigInt b_phi(size, temp);
+
 }

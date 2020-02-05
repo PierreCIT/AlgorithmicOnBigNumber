@@ -1,9 +1,19 @@
 #include <iostream>
+#include <bitset>
 #include "BigInt.h"
+
 
 using namespace std;
 
 int main() {
+    std::string binary = std::bitset<32>(pow(2,31)).to_string(); //to binary
+    std::cout<<binary<<"\n";
+
+    cout<<binary[0]<<" "<<binary[1]<<endl;
+
+    unsigned long decimal = std::bitset<8>(binary).to_ulong();
+    std::cout<<decimal<<"\n";
+
     cout << "Begins" << endl;
     vector<uint64_t> initA = {0, 4294967295, 0, 0, 0, 0, 4294967295, 0, 0};
     vector<uint64_t> initB = {0, 0, 4294967295, 0, 0, 0, 0, 0, 4294967295};
@@ -30,5 +40,6 @@ int main() {
     cout << "A * B : ";
     C = A.multiply(B);
     C.print();
+
     return 0;
 }
