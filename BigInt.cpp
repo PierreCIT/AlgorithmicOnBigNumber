@@ -67,7 +67,6 @@ BigInt BigInt::multiply(BigInt B) {
         uint64_t carry_2 = 0;
         for (int k = vector_size - 1; k > 0; k--) {
             int index = (result.vector_size - 1) - (vector_size - k - 1) - (vector_size - i - 1);
-            cout << index << " ";
             temp_mul = B.value[i] * value[k];
             uint64_t temp_add = (uint64_t) ((uint32_t) temp_mul + result.value[index]);
             result.value[index] = uint64_t((uint32_t) temp_add);
@@ -77,7 +76,6 @@ BigInt BigInt::multiply(BigInt B) {
             result.value[index - 1] = uint64_t((uint32_t) temp_add);
             carry_2 = (uint32_t) (temp_add >> 32);
         }
-        cout << endl;
 //        finalResult = finalResult + result;
 //        finalResult.print();
 //        result.reset();
@@ -107,10 +105,23 @@ BigInt mask_with_k(BigInt a, int k) {
 }
 
 BigInt shift_to_right(BigInt a, int k) {
-    for (int i = 0; i < a.vector_size - 1; i++) {
-        a.value[i + 1] = a.value[i];
+    vector<uint64_t> temp = {0};
+    BigInt result(a.size, temp);
+    string binary = "";
+    for (int i = 0; i < a.vector_size; i++) {
+        binary += bitset<32>(a.value[i]).to_string(); //to binary
     }
-    return a;
+    string final_binary = "";
+    for(int i = 0; i< binary.size() - k; i++){
+        final_binary+=binary[i];
+    }
+    int temp3 = binary.size();
+    int temp1 = final_binary.size();
+    int temp2 =(int) (final_binary.size()/32);
+    for(int i = 0; i< (int) (final_binary.size()/32) ;i++){
+        result.value[i] = bitset<32>(final_binary.substr(i*32, 32)).to_ulong();
+    }
+    return result;
 }
 
 BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k) {
@@ -118,8 +129,9 @@ BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k) {
     v.extend_to_size(s.size);
     BigInt t = mask_with_k(s.multiply(v), k);
     t = mask_with_k(t, k); //operation modulo
-    t.value.resize(A.size);
+    t.reduce_size_to(A.size);
     BigInt m = s + t.multiply(p);
+    shift_to_right(m, k);
     //return m >> 32; //TODO: Change
 }
 
@@ -132,8 +144,10 @@ BigInt BigInt::montgomery(BigInt B, BigInt r, BigInt v, BigInt p) {
 }
 
 void BigInt::reduce_size_to(int size) {
-    //TODO : Finish this function
     vector<uint64_t> temp = {0};
     BigInt reduced(size, temp);
-
+    for (int i = 0; i < reduced.vector_size; i++) {
+        reduced.value[reduced.vector_size - 1 - i] = value[vector_size - 1 - i];
+    }
+    *this = reduced;
 }

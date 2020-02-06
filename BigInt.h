@@ -6,9 +6,10 @@
 #define ALGORITHMICONBIGNUMBER_BIGINT_H
 
 #import <vector>
-#import <string>
+#include <cstring>
 #import <iostream>
 #include <cmath>
+#include <bitset>
 
 using namespace std;
 
@@ -57,4 +58,7 @@ public:
 BigInt mask_with_k(BigInt a, int k);
 
 BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k);
+
+BigInt shift_to_right(BigInt a, int k);
+
 #endif //ALGORITHMICONBIGNUMBER_BIGINT_H
