@@ -91,6 +91,12 @@ void BigInt::reset() {
     }
 }
 
+
+void BigInt::extend_to_size(int size) {
+    BigInt resized(size, value);
+    *this = resized;
+}
+
 BigInt mask_with_k(BigInt a, int k) {
     int index = (int) k / 32;
     a.value[a.vector_size - 1 - index] = a.value[a.vector_size - 1 - index] & (unsigned long) (pow(2, k % 32) - 1);
@@ -107,17 +113,27 @@ BigInt shift_to_right(BigInt a, int k) {
     return a;
 }
 
-BigInt elementar_montgomery(BigInt A, BigInt B, BigInt r, BigInt v, BigInt p, int k) {
+BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k) {
     BigInt s = A.multiply(B);
+    v.extend_to_size(s.size);
     BigInt t = mask_with_k(s.multiply(v), k);
     t = mask_with_k(t, k); //operation modulo
+    t.value.resize(A.size);
     BigInt m = s + t.multiply(p);
     //return m >> 32; //TODO: Change
 }
+
 
 BigInt BigInt::montgomery(BigInt B, BigInt r, BigInt v, BigInt p) {
     vector<uint64_t> temp = {0};
     BigInt a_phi(size, temp);
     BigInt b_phi(size, temp);
+
+}
+
+void BigInt::reduce_size_to(int size) {
+    //TODO : Finish this function
+    vector<uint64_t> temp = {0};
+    BigInt reduced(size, temp);
 
 }

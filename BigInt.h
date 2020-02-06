@@ -48,7 +48,13 @@ public:
     void reset();
 
     BigInt montgomery(BigInt B, BigInt r, BigInt v, BigInt p);
+
+    void extend_to_size(int size);
+
+    void reduce_size_to(int size);
 };
 
+BigInt mask_with_k(BigInt a, int k);
 
+BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k);
 #endif //ALGORITHMICONBIGNUMBER_BIGINT_H
