@@ -5,9 +5,9 @@
 #ifndef ALGORITHMICONBIGNUMBER_BIGINT_H
 #define ALGORITHMICONBIGNUMBER_BIGINT_H
 
-#import <vector>
+#include <vector>
 #include <cstring>
-#import <iostream>
+#include <iostream>
 #include <cmath>
 #include <bitset>
 
@@ -16,7 +16,7 @@ using namespace std;
 class BigInt {
 public:
     int size;
-    unsigned int vector_size = 0;
+    uint vector_size = 0;
     vector<uint64_t> value;
 
     BigInt(int siz, vector<uint64_t> vect);
@@ -36,28 +36,22 @@ public:
 
     BigInt add(BigInt B);
 
-    BigInt addModular(BigInt B, BigInt p);
+    BigInt addModular(BigInt B, const BigInt &p);
 
-    friend BigInt operator+(BigInt A, BigInt B) {
-        return A.add(B);
-    }
-
-    BigInt substract(BigInt B, BigInt p);
+    BigInt substract(BigInt B,const BigInt &p);
 
     BigInt multiply(BigInt B);
 
-    void reset();
+    BigInt montgomery(BigInt B, BigInt r, const BigInt& v, const BigInt& p, int k);
 
-    BigInt montgomery(BigInt B, BigInt r, BigInt v, BigInt p);
+    void extend_to_size(int siz);
 
-    void extend_to_size(int size);
-
-    void reduce_size_to(int size);
+    void reduce_size_to(int siz);
 };
 
 BigInt mask_with_k(BigInt a, int k);
 
-BigInt elementar_montgomery(BigInt A, BigInt B, BigInt v, BigInt p, int k);
+BigInt elementar_montgomery(BigInt A,const BigInt &B, BigInt v, BigInt p, int k);
 
 BigInt shift_to_right(BigInt a, int k);
 
